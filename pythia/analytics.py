@@ -10,7 +10,6 @@ import pythia.io
 import pythia.util
 from contextlib import _GeneratorContextManager
 
-
 def get_run_basedir(config, run):
     return os.path.join(config.get("workDir", "."), run.get("name", ""))
 
@@ -54,7 +53,7 @@ def filter_columns(config, outputs):
         out_file = os.path.join(
             out_dir, "filtered_{}".format(os.path.basename(current_file))
         )
-        with open(current_file) as source, open(out_file, "w") as dest:
+        with open(current_file) as source, open(out_file, "w", newline = '') as dest:
             dssat_in = csv.reader(source)
             dssat_out = csv.writer(dest)
             try:
@@ -93,7 +92,7 @@ def calculate_columns(config, outputs):
         out_file = os.path.join(
             out_dir, "calculated_{}".format(os.path.basename(current_file))
         )
-        with open(current_file) as source, open(out_file, "w") as dest:
+        with open(current_file) as source, open(out_file, "w", newline = '') as dest:
             dssat_in = csv.reader(source)
             dssat_out = csv.writer(dest)
             num_cols = 0
@@ -154,7 +153,6 @@ def combine_outputs(config, outputs):
                             collected_first_line = True
                     else:
                         dest.write(line)
-
 
 def collate_outputs(config, run):
     analytics_config = config.get("analytics_setup", {})
@@ -245,6 +243,7 @@ def collate_outputs(config, run):
             if ds_pop is not None:
                 ds_pop.close()
     return out_file
+
 
 
 def execute(config, plugins):
